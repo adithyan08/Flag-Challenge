@@ -50,7 +50,7 @@ class FlagsChallengeViewModel: ObservableObject {
         stopTimer()
     }
 
-    // MARK: - Persist and Restore State
+    // MARK: - Coredata
 
     @objc func saveState() {
         let defaults = UserDefaults.standard
@@ -420,8 +420,6 @@ class FlagsChallengeViewModel: ObservableObject {
         isResultShown = true
         stopTimer()
         evaluateAnswer()
-        
-        // Debug print to confirm state update
         print("Selected option: \(index), isResultShown: \(isResultShown)")
     }
 
@@ -439,7 +437,6 @@ class FlagsChallengeViewModel: ObservableObject {
         
         stopTimer()
         
-        // Delay going to interval phase for 2 seconds to show feedback
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
             guard let self = self else { return }
             self.phase = .interval
@@ -474,6 +471,26 @@ class FlagsChallengeViewModel: ObservableObject {
     func stopTimer() {
         timer?.invalidate()
         timer = nil
+    }
+    func resetGameData() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = QuestionEntity.fetchRequest()
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try context.execute(batchDeleteRequest)
+            try context.save()
+            loadFromJsonAndSave()
+            resetState()
+        } catch {
+            print("Failed to reset data: \(error)")
+        }
+    }
+    func resetState() {
+        score = 0
+        currentQuestionIndex = 0
+        selectedIndex = nil
+        isResultShown = false
+        phase = .waitingForSchedule
+        
     }
 
     func resetGame() {

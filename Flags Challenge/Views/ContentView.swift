@@ -113,8 +113,10 @@ struct ContentView: View {
     @ViewBuilder
     func contentView() -> some View {
         switch vm.phase {
-        case .waitingForSchedule, .countdownToStart:
+        case .waitingForSchedule:
             EmptyView()
+        case .countdownToStart:
+            countdownView()
         case .question:
             questionView()
         case .interval:
@@ -123,6 +125,22 @@ struct ContentView: View {
             finishedView()
         }
     }
+
+    func countdownView() -> some View {
+        VStack {
+            Spacer()
+            Text("Starting in...")
+                .font(.title)
+                .foregroundColor(Color.brandOrange)
+                .padding(.bottom, 12)
+            Text(String(format: "00:%02d", vm.countdownToStart))
+                .font(.system(size: 48, weight: .bold, design: .monospaced))
+                .foregroundColor(.black)
+                .padding(.bottom, 40)
+            Spacer()
+        }
+    }
+
     
     func questionView() -> some View {
         guard vm.currentQuestionIndex < vm.questions.count else { return AnyView(EmptyView()) }
@@ -202,15 +220,29 @@ struct ContentView: View {
     }
     
     func finishedView() -> some View {
-        VStack(spacing: 24) {
-            Text("GAME OVER")
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(Color.brandOrange)
-            Text("SCORE : \(vm.score)/\(vm.questions.count)")
-                .font(.title2)
-        }
-    }
+           VStack(spacing: 24) {
+               Text("GAME OVER")
+                   .font(.largeTitle)
+                   .bold()
+                   .foregroundColor(Color.brandOrange)
+               Text("SCORE : \(vm.score)/\(vm.questions.count)")
+                   .font(.title2)
+               Button("Play Again") {
+                  
+                   vm.resetGameData()
+                
+                   withAnimation {
+                       showSchedule = true
+                   }
+               }
+               .font(.title3.bold())
+               .padding()
+               .background(Color.brandOrange)
+               .foregroundColor(.white)
+               .cornerRadius(8)
+           }
+       }
+       
     
     func buttonBackground(idx: Int) -> Color {
         guard vm.currentQuestionIndex < vm.questions.count else { return Color.clear }
