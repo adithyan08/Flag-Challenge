@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "Saint Pierre and Miquelon (PM)@2x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Saint Pierre and Miquelon (PM)@2x.png",
+      "filename" : "Saint Pierre and Miquelon (PM)@2x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Saint Pierre and Miquelon (PM)@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

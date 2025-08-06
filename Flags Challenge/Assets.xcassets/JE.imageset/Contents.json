@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Jersey (JE)@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Jersey (JE)@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

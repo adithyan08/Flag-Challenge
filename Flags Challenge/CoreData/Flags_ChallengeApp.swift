@@ -15,6 +15,7 @@ struct Flags_ChallengeApp: App {
         WindowGroup {
             ContentView(context: persistenceController.container.viewContext)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .preferredColorScheme(.light) 
         }
     }
 }
