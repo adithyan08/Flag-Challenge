@@ -13,9 +13,9 @@ struct Flags_ChallengeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(context: persistenceController.container.viewContext)
+            SplashView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .preferredColorScheme(.light) 
+                .preferredColorScheme(.light)
         }
     }
 }
