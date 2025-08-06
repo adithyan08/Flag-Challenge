@@ -9,33 +9,51 @@ import XCTest
 
 final class Flags_ChallengeUITests: XCTestCase {
 
+    var app: XCUIApplication!
+
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
+        app.launch()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        app = nil
     }
+    
+    func testScheduleScreenBasicFlow() throws {
+       
+        let title = app.staticTexts["FLAGS CHALLENGE"]
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
 
-    @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+       
+        let saveButton = app.buttons["Save"]
+        XCTAssertTrue(saveButton.exists)
+        XCTAssertTrue(saveButton.isEnabled)
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+       
+        let textFields = app.textFields.allElementsBoundByIndex
+        XCTAssertTrue(textFields.count >= 3)
 
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+        
+        let secondsField = textFields[2]
+        secondsField.tap()
+        
+        
+        if let existing = secondsField.value as? String {
+            for _ in existing {
+                secondsField.typeText(XCUIKeyboardKey.delete.rawValue)
+            }
         }
+        
+        secondsField.typeText("3")
+
+       
+        saveButton.tap()
+
+        
+        let countdownPredicate = NSPredicate(format: "label CONTAINS '00:0'")
+        let countdownLabel = app.staticTexts.element(matching: countdownPredicate)
+        XCTAssertTrue(countdownLabel.waitForExistence(timeout: 2))
     }
 }
