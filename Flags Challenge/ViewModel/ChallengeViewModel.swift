@@ -25,7 +25,7 @@ class FlagsChallengeViewModel: ObservableObject {
 
     private let countdownDuration = 20
     private let questionDuration = 30
-    private let intervalDuration = 1
+    private let intervalDuration = 10
 
     @Published var questionTimer = 0
     @Published var intervalTimer = 0
