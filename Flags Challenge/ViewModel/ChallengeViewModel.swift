@@ -25,7 +25,7 @@ class FlagsChallengeViewModel: ObservableObject {
 
     private let countdownDuration = 20
     private let questionDuration = 30
-    private let intervalDuration = 10
+    private let intervalDuration = 1
 
     @Published var questionTimer = 0
     @Published var intervalTimer = 0
@@ -278,7 +278,7 @@ class FlagsChallengeViewModel: ObservableObject {
               "answer_id": 235,
               "countries": [
                 { "country_name": "United Arab Emirates", "id": 235 },
-                { "country_name": "United Arab Emirates", "id": 235 },
+                { "country_name": "India", "id": 236 },
                 { "country_name": "Macedonia", "id": 133 },
                 { "country_name": "Guernsey", "id": 93 }
               ],
